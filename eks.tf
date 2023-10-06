@@ -40,14 +40,14 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 19.0"
 
-  cluster_name    = "my-cluster"
+  cluster_name    = var.cluster_name
   cluster_version = "1.27"
 
   cluster_endpoint_public_access  = true
 
   vpc_id                   = aws_vpc.my-vpc.id
-  subnet_ids               = [aws_subnet.y-subnet-1]
-  control_plane_subnet_ids = [aws_subnet.y-subnet-2]
+  subnet_ids               = [aws_subnet.y-subnet-1.id]
+  control_plane_subnet_ids = [aws_subnet.y-subnet-2.id]
 }
 
 module "eks_blueprints_addons" {
