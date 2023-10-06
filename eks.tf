@@ -1,38 +1,52 @@
-module "eks_blueprints" {
-  source = "github.com/aws-ia/terraform-aws-eks-blueprints?ref=v4.0.2"
+provider "aws" {
+  region = "us-west-2"
+}
 
-  # EKS Cluster VPC and Subnet mandatory config
-  vpc_id             = var.vpc_id
-  private_subnet_ids = var.subnet_id
-
-  # EKS CLUSTER VERSION
-  cluster_version = "1.21"
-
-  # EKS MANAGED NODE GROUPS
-  managed_node_groups = {
-    mg_5 = {
-      node_group_name = "managed-ondemand"
-      instance_types  = ["m5.large"]
-      min_size        = "2"
-    }
+resource "aws_vpc" "my-vpc" {
+  cidr_block = "10.0.0.0/16"
+  tags = {
+    Name = "my-vpc"
   }
 }
 
-# Add-ons
-module "kubernetes_addons" {
-  source = "github.com/aws-ia/terraform-aws-eks-blueprints//modules/kubernetes-addons?ref=v4.0.2"
-
-  eks_cluster_id = module.eks_blueprints.eks_cluster_id
-
-  # EKS Add-ons
-  enable_amazon_eks_vpc_cni            = var.enable_amazon_eks_vpc_cni
-  enable_amazon_eks_coredns            = var.enable_amazon_eks_coredns
-  enable_amazon_eks_aws_ebs_csi_driver = var.enable_amazon_eks_aws_ebs_csi_driver
-
-  # Self-managed Add-ons
-  enable_aws_for_fluentbit            = true
-  enable_aws_load_balancer_controller = true
-  enable_aws_efs_csi_driver           = true
-  enable_cluster_autoscaler           = true
-  enable_metrics_server               = true
+resource "aws_subnet" "my-subnet-1" {
+  vpc_id     = aws_vpc.my-vpc.id
+  cidr_block = "10.0.1.0/24"
+  availability_zone = "us-west-2a"
+  tags = {
+    Name = "my-subnet-1"
+  }
 }
+
+resource "aws_subnet" "my-subnet-2" {
+  vpc_id     = aws_vpc.my-vpc.id
+  cidr_block = "10.0.2.0/24"
+  availability_zone = "us-west-2b"
+  tags = {
+    Name = "my-subnet-2"
+  }
+}
+
+resource "aws_subnet" "my-subnet-3" {
+  vpc_id     = aws_vpc.my-vpc.id
+  cidr_block = "10.0.3.0/24"
+  availability_zone = "us-west-2c"
+  tags = {
+    Name = "my-subnet-3"
+  }
+}
+
+module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "~> 19.0"
+
+  cluster_name    = "my-cluster"
+  cluster_version = "1.27"
+
+  cluster_endpoint_public_access  = true
+
+  vpc_id                   = aws_vpc.my-vpc.id
+  subnet_ids               = [aws_subnet.y-subnet-1]
+  control_plane_subnet_ids = [aws_subnet.y-subnet-2]
+}
+

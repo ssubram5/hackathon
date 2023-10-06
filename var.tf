@@ -1,12 +1,12 @@
-variable "vpc_id" {
-  default = "value1"
+variable "vnet_id" {
+  default = "test"
 }
 
 variable "subnet_id" {
-  default = "value2"
+  default = "test2"
 }
 
 variable "grafana" {
-  default = "value3"
+  default = "True"
 }
 
