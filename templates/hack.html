@@ -8,21 +8,66 @@
 <form method='POST' action ='/'>
  <table>
  <tr>
- <td>Vnet_ID</td>
- <td><input type='text' name='vnet_id'/></td>
+ <td>cluster_name</td>
+ <td><input type='text' name='cluster_name'/></td>
  </tr>
  <tr>
- <td>Subnet_iD</td>
- <td><input type='text' name='subnet_id'/></td>
+ <td>region</td>
+ <td><input type='text' name='region'/></td>
  </tr>
  <tr>
- <td><label for="grafana">Grafana</label></td>
+ <td><label for="enable_karpenter">enable_karpenter</label></td>
  <td>
- <select name="grafana" id="grafana">
- <option value="True">True</option>
- <option value="False">False</option>
+    <select name="enable_karpenter" id="enable_karpenter">
+    <option value="True">True</option>
+    <option value="False">False</option>
  </select>
  </td>
+</tr>
+<tr>
+<td><label for="enable_external_dns">enable_external_dns</label></td>
+<td>
+    <select name="enable_external_dns" id="enable_external_dns">
+    <option value="True">True</option>
+    <option value="False">False</option>
+    </select>
+</td>
+</tr>
+<tr>
+    <td><label for="enable_argocd">enable_argocd</label></td>
+<td>
+    <select name="enable_argocd" id="enable_argocd">
+    <option value="True">True</option>
+    <option value="False">False</option>
+    </select>
+</td>
+</tr>
+<tr>
+    <td><label for="enable_ingress_nginx">enable_ingress_nginx</label></td>
+<td>
+    <select name="enable_ingress_nginx" id="enable_ingress_nginx">
+    <option value="True">True</option>
+    <option value="False">False</option>
+    </select>
+</td>
+</tr>
+<tr>
+    <td><label for="enable_velero">enable_velero</label></td>
+<td>
+    <select name="enable_velero" id="enable_velero">
+    <option value="True">True</option>
+    <option value="False">False</option>
+    </select>
+</td>
+</tr>
+<tr>
+    <td><label for="enable_cert_manager">enable_cert_manager</label></td>
+<td>
+    <select name="enable_cert_manager" id="enable_cert_manager">
+    <option value="True">True</option>
+    <option value="False">False</option>
+    </select>
+</td>
  </tr>
  <tr>
  <td><input type="submit" value="Submit Query"></td>
